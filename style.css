@@ -360,3 +360,8 @@ body {
   border-radius: 9999px;
 }
 
+/* Giriş Ekranı (Intro Modal) */
+#introModal {
+  z-index: 70;
+}
+

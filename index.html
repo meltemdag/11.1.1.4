@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>1683–1774 Osmanlı Siyasi ve Askerî Mücadeleleri — Harita Etkinliği</title>
+  <title>1683–1774 Osmanlıda Sınır Mücadeleleri — Harita Etkinliği</title>
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,6 +45,12 @@
       <button id="fullscreenBtn" title="Tam Ekran" class="hidden sm:flex w-8 h-8 items-center justify-center rounded-lg bg-[#251b12] hover:bg-[#38281a] text-amber-200/80 hover:text-white border border-[#433020] transition">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+        </svg>
+      </button>
+
+      <button id="introHelpBtn" title="Etkinlik Hakkında" class="w-8 h-8 flex items-center justify-center rounded-lg bg-[#251b12] hover:bg-[#38281a] text-amber-200/80 hover:text-white border border-[#433020] transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       </button>
     </div>
@@ -153,6 +159,34 @@
       </button>
     </div>
   </div>
+
+  <!-- ========================================================
+       5. ETKİNLİK GİRİŞ EKRANI (BAŞLANGIÇ BİLGİLENDİRME KARTI)
+  ======================================================== -->
+  <div id="introModal" class="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md transition-opacity duration-300 opacity-100">
+    <div class="ottoman-popup-card w-full max-w-lg rounded-2xl p-6 sm:p-8 relative transform transition-transform duration-300 scale-100 text-center">
+      
+      <!-- Başlık -->
+      <h2 class="font-serif-title text-2xl sm:text-3xl font-bold text-[#fff3cf] mb-4 leading-tight tracking-wide">
+        1683–1774 Osmanlıda Sınır Mücadeleleri
+      </h2>
+
+      <!-- Açıklama Metni -->
+      <p class="text-sm sm:text-base text-amber-100/90 mb-7 leading-relaxed text-center px-2">
+        Bu etkinlikte, XVII ve XVIII. yüzyıl Osmanlı siyasi mücadelelerini dilsiz harita üzerinde göstererek öğreneceksiniz.
+      </p>
+
+      <!-- Başlat Butonu -->
+      <button id="startIntroBtn" class="ottoman-btn-gold w-full py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer">
+        <span>Etkinliği Başlat</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </button>
+
+    </div>
+  </div>
+
 
   <!-- Harita Etkinliği Uygulama Mantığı -->
   <script src="app.js" defer></script>

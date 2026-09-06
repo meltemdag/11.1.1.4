@@ -168,6 +168,14 @@ const completionModal = document.getElementById('completionModal');
 const feedbackToast = document.getElementById('feedbackToast');
 const feedbackText = document.getElementById('feedbackText');
 
+const introModal = document.getElementById('introModal');
+const startIntroBtn = document.getElementById('startIntroBtn');
+const introHelpBtn = document.getElementById('introHelpBtn');
+
+function isIntroOpen() {
+  return introModal && !introModal.classList.contains('pointer-events-none');
+}
+
 /* --------------------------------------------------------
    C. HARİTA PİNLERİNİ ÇİZME VE GÜNCELLEME
 -------------------------------------------------------- */
@@ -341,7 +349,7 @@ function restartAll() {
    F. HARİTA TIKLAMA VE İSABET MANTIĞI
 -------------------------------------------------------- */
 viewport.addEventListener('click', (e) => {
-  if (isModalOpen || isPanning || e.target.closest('#floatingQuestionCard') || e.target.closest('.map-pin-item')) return;
+  if (isModalOpen || isIntroOpen() || isPanning || e.target.closest('#floatingQuestionCard') || e.target.closest('.map-pin-item')) return;
 
   const rect = mapImage.getBoundingClientRect();
   if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
@@ -468,7 +476,7 @@ viewport.addEventListener('pointerdown', (e) => {
 });
 
 viewport.addEventListener('wheel', (e) => {
-  if (isModalOpen) return;
+  if (isModalOpen || isIntroOpen()) return;
   e.preventDefault();
   const delta = e.deltaY < 0 ? 0.15 : -0.15;
   zoomLevel = Math.min(Math.max(zoomLevel + delta, 0.85), 3.2);
@@ -492,6 +500,29 @@ if (togglePinsBtn) {
     }
     renderPins();
   });
+}
+
+/* --------------------------------------------------------
+   I. GİRİŞ EKRANI (INTRO MODAL) KONTROLLERİ
+-------------------------------------------------------- */
+function openIntroModal() {
+  if (!introModal) return;
+  introModal.classList.remove('opacity-0', 'pointer-events-none');
+  introModal.classList.add('opacity-100');
+}
+
+function closeIntroModal() {
+  if (!introModal) return;
+  introModal.classList.add('opacity-0', 'pointer-events-none');
+  introModal.classList.remove('opacity-100');
+}
+
+if (startIntroBtn) {
+  startIntroBtn.addEventListener('click', closeIntroModal);
+}
+
+if (introHelpBtn) {
+  introHelpBtn.addEventListener('click', openIntroModal);
 }
 
 window.addEventListener('resize', () => {
