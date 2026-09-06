@@ -91,6 +91,25 @@
     </div>
   </div>
 
+  <!-- Harita Üzerinde Sabit Bitiş Paneli (En Son Aşamada Harita Üzerinde Belirir) -->
+  <div id="finalActionBar" class="fixed bottom-4 sm:bottom-6 inset-x-0 z-40 flex items-center justify-center px-4 pointer-events-none transition-all duration-300 opacity-0 translate-y-6">
+    <div class="pointer-events-auto flex flex-wrap items-center justify-center gap-3 p-2 sm:p-2.5 rounded-2xl bg-[#1c070a]/95 border-2 border-amber-500/70 shadow-2xl backdrop-blur-md">
+      <button id="restartFromMapBtn" class="px-5 py-2.5 rounded-xl bg-[#2e0b10] hover:bg-[#481119] text-amber-200 border border-amber-500/50 text-xs sm:text-sm font-bold transition flex items-center gap-2 cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98]">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        <span>Etkinliği Yeniden Başlat</span>
+      </button>
+
+      <button id="finishActivityBtn" class="ottoman-btn-gold px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98]">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#24080b]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+        </svg>
+        <span>Etkinliği Bitir</span>
+      </button>
+    </div>
+  </div>
+
   <!-- İlerleme Çubuğu (Ekranın En Altında İnce Çizgi) -->
   <div class="fixed bottom-0 inset-x-0 z-20 h-1.5 bg-[#241710]">
     <div id="progressBar" class="h-full bg-gradient-to-r from-amber-600 via-amber-400 to-amber-500 transition-all duration-300" style="width: 0%;"></div>
@@ -136,26 +155,26 @@
   </div>
 
   <!-- ========================================================
-       4. ETKİNLİK BİTİŞ EKRANI (TAMAMLAMA KARTI)
+       4. ETKİNLİK KAPANIŞ EKRANI (ETKİNLİĞİ BİTİR TIKLANDIĞINDA)
   ======================================================== -->
-  <div id="completionModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none">
-    <div class="ottoman-popup-card w-full max-w-lg rounded-2xl p-7 sm:p-8 text-center relative transform transition-transform duration-300 scale-95">
+  <div id="exitModal" class="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none">
+    <div class="ottoman-popup-card w-full max-w-md rounded-2xl p-6 sm:p-8 text-center relative transform transition-transform duration-300 scale-95">
       
-      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-amber-300 shadow-lg shadow-amber-950/50">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-emerald-300 shadow-lg shadow-emerald-950/50">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
         </svg>
       </div>
 
       <h2 class="font-serif-title text-2xl sm:text-3xl font-bold text-[#fff3cf] mb-2">
-        Tüm Sorular Tamamlandı
+        Etkinlik Tamamlandı
       </h2>
       <p class="text-sm text-amber-100/85 mb-6 leading-relaxed">
-        1683 Viyana Kuşatması'ndan 1774 Küçük Kaynarca Antlaşması'na kadar geçen süreçte Osmanlı Devleti'nin siyasi ve askerî mücadele alanlarını dilsiz harita üzerinde başarıyla konumlandırdınız.
+        1683–1774 Osmanlı sınır mücadeleleri etkinliği başarıyla sonlandırıldı. Bu pencereyi veya sekmeyi güvenle kapatabilirsiniz.
       </p>
 
-      <button id="restartFinalBtn" class="ottoman-btn-gold w-full py-3.5 px-6 rounded-xl flex items-center justify-center gap-2">
-        Etkinliği Yeniden Başlat
+      <button id="closeWindowBtn" class="ottoman-btn-gold w-full py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 text-sm font-bold cursor-pointer">
+        Pencereyi Kapat
       </button>
     </div>
   </div>

@@ -365,3 +365,8 @@ body {
   z-index: 70;
 }
 
+/* Kapanış Ekranı (Exit Modal) */
+#exitModal {
+  z-index: 80;
+}
+
