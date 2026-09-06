@@ -228,8 +228,9 @@ function renderPins() {
       stateClass = 'is-active';
     }
 
-    // Haritanın alt kısmındaki pinlerde etiketi rozetin üstüne yerleştir
-    const positionClass = m.y > 75 ? 'label-top' : '';
+    // Haritanın alt kısmındaki veya altında başka bir pin olan noktalarda etiketi rozetin üstüne yerleştir
+    const labelTopIds = [1, 2, 3, 8];
+    const positionClass = (labelTopIds.includes(m.id) || m.y > 72) ? 'label-top' : '';
 
     pinEl.className = `map-pin-item ${stateClass} ${positionClass}`.trim();
     pinEl.style.left = `${m.x}%`;
@@ -649,12 +650,14 @@ window.addEventListener('resize', () => {
 });
 
 window.addEventListener('DOMContentLoaded', () => {
-  // Tüm kartları tamamlanmış olarak açma (kapanış/bitiş ekranını doğrudan inceleme modu)
-  MISSIONS.forEach(m => completedSet.add(m.id));
-  progressBar.style.width = '100%';
-  currentIdx = MISSIONS.length - 1;
-  loadMission(currentIdx);
-  onAllMissionsCompleted();
+  if (finalActionBar) {
+    finalActionBar.classList.add('opacity-0', 'translate-y-6', 'pointer-events-none');
+    finalActionBar.classList.remove('opacity-100', 'translate-y-0');
+  }
+  completedSet.clear();
+  progressBar.style.width = '0%';
+  loadMission(0);
+  openIntroModal();
 
   if (mapImage) {
     if (mapImage.complete) {

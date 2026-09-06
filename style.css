@@ -82,6 +82,10 @@ body {
   z-index: 25;
 }
 
+.map-pin-item.is-active {
+  z-index: 40;
+}
+
 /* Hedef Kabul Alanı Çemberi (Hit Radius Zone) */
 .pin-target-zone {
   position: absolute;
@@ -400,10 +404,14 @@ body {
 
   .map-pin-item.label-top .pin-label-pill {
     top: auto;
-    bottom: calc(50% + 14px);
+    bottom: calc(50% + 20px);
   }
 
   /* Aktif Soru Pini: Mobilde daima görünür ve vurgulu */
+  .map-pin-item.is-active {
+    z-index: 40 !important;
+  }
+
   .map-pin-item.is-active .pin-label-pill {
     opacity: 1;
     visibility: visible;
@@ -414,7 +422,7 @@ body {
 
   /* Kullanıcı bir pine dokunduğunda (revealed): Açılır mini balon efekti */
   .map-pin-item.is-revealed {
-    z-index: 35 !important;
+    z-index: 50 !important;
   }
 
   .map-pin-item.is-revealed .pin-badge {
