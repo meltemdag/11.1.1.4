@@ -432,9 +432,9 @@ body {
     animation: mobileTooltipPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   }
 
-  /* Mobilde Sabit Soru Kartı: Kompakt, çakışmasız ve ferah */
+  /* Mobilde Sabit Soru Kartı: Kompakt, çakışmasız ve ferah (Yönerge şeridinin altında) */
   .floating-question-card {
-    top: 3.25rem;
+    top: 5.75rem;
     width: calc(100% - 1.25rem);
     max-width: calc(100% - 1.25rem);
     border-radius: 12px;
@@ -446,16 +446,16 @@ body {
   }
 
   #viewport {
-    padding-top: 2.75rem;
+    padding-top: 4rem;
   }
 
   #mapTransformLayer,
   #mapImage {
-    max-height: calc(100dvh - 3rem);
+    max-height: calc(100dvh - 5.5rem);
   }
 
   #infoModal {
-    padding-top: 8.5rem;
+    padding-top: 11rem;
     padding-bottom: 1rem;
     -webkit-overflow-scrolling: touch;
   }

@@ -21,18 +21,15 @@
   <!-- ========================================================
        1. ÜST HEADER: YÖNLENDİRME METNİ VE HARİTA KONTROLLERİ
   ======================================================== -->
-  <header class="fixed top-0 inset-x-0 z-30 px-3 sm:px-6 py-2 sm:py-2.5 bg-[#1a130d]/95 border-b border-[#3c2a1a] shadow-2xl backdrop-blur-md flex items-center justify-between gap-2.5 sm:gap-4 h-11 sm:h-auto">
+  <header class="fixed top-0 inset-x-0 z-30 px-3 sm:px-6 py-2 sm:py-2.5 bg-[#1a130d]/95 border-b border-[#3c2a1a] shadow-2xl backdrop-blur-md flex items-center justify-between gap-2.5 sm:gap-4 h-11 md:h-auto">
     <!-- Sol: Dönem Rozeti ve Açıklama Metni -->
     <div class="flex items-center gap-2 sm:gap-3 min-w-0">
       <span class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-[11px] sm:text-xs tracking-wider uppercase shrink-0 shadow-sm">
         1683–1774
       </span>
-      <p class="text-xs sm:text-[13px] font-medium text-amber-100/90 leading-snug hidden sm:block truncate">
+      <p class="text-xs md:text-[13px] font-medium text-amber-100/90 leading-snug hidden md:block">
         Soruda belirtilen bölgeyi dilsiz harita üzerinde bulunuz ve açılan bilgi kartındaki açıklamaları dikkatle inceleyiniz.
       </p>
-      <span class="text-xs font-semibold text-amber-100/90 truncate sm:hidden">
-        Harita Etkinliği
-      </span>
     </div>
 
     <!-- Sağ: Kompakt Harita Kontrolleri -->
@@ -50,14 +47,17 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
         </svg>
       </button>
-
-      <button id="introHelpBtn" title="Etkinlik Hakkında" class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-lg bg-[#251b12] hover:bg-[#38281a] text-amber-200/80 hover:text-white border border-[#433020] transition">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      </button>
     </div>
   </header>
+
+  <!-- ========================================================
+       MOBİL YÖNERGE ŞERİDİ (BAŞLIK KARTININ DIŞINDA, HER ZAMAN GÖRÜNÜR)
+  ======================================================== -->
+  <div id="mobileInstructionBanner" class="md:hidden fixed top-11 inset-x-0 z-20 px-3 py-1.5 bg-[#170f0a]/95 border-b border-[#3c2a1a] shadow-md backdrop-blur-md flex items-center justify-center text-center">
+    <p class="text-[11px] sm:text-xs font-medium text-amber-100/90 leading-tight">
+      Soruda belirtilen bölgeyi dilsiz harita üzerinde bulunuz ve açılan bilgi kartındaki açıklamaları dikkatle inceleyiniz.
+    </p>
+  </div>
 
   <!-- ========================================================
        2. TAM EKRAN ETKİLEŞİMLİ HARİTA ALANI (CANVAS & STAGE)
