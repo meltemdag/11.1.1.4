@@ -277,10 +277,10 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 2rem);
-  max-width: 672px;
+  max-width: 715px;
   background: linear-gradient(145deg, #58161c 0%, #3e0d11 55%, #270608 100%);
   border: 2px solid #d4af37 !important;
-  border-radius: 14px;
+  border-radius: 15px;
   box-shadow: 
     0 16px 40px rgba(0, 0, 0, 0.75),
     0 0 20px rgba(212, 175, 55, 0.3),

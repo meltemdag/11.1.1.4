@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>1683–1774 Osmanlıda Sınır Mücadeleleri — Harita Etkinliği</title>
+  <title>1683–1774 Osmanlı'da Sınır Mücadeleleri — Harita Etkinliği</title>
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,8 +77,8 @@
          Cevap pop-up'ı açıldığında da yukarıda ayrı bir kart olarak net görünür.
     ======================================================== -->
     <div id="floatingQuestionCard" 
-         class="floating-question-card pointer-events-auto select-none p-3.5 sm:p-4 transition-all duration-300">
-      <p id="cardQuestionText" class="text-sm sm:text-base md:text-[15px] font-bold text-white leading-relaxed tracking-normal text-center">
+         class="floating-question-card pointer-events-auto select-none p-4 sm:p-5 transition-all duration-300">
+      <p id="cardQuestionText" class="text-[15px] sm:text-[17px] font-bold text-white leading-relaxed tracking-normal text-center">
         Soru metni yükleniyor...
       </p>
     </div>
@@ -182,26 +182,36 @@
   <!-- ========================================================
        5. ETKİNLİK GİRİŞ EKRANI (BAŞLANGIÇ BİLGİLENDİRME KARTI)
   ======================================================== -->
-  <div id="introModal" class="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md transition-opacity duration-300 opacity-100">
-    <div class="ottoman-popup-card w-full max-w-lg rounded-2xl p-6 sm:p-8 relative transform transition-transform duration-300 scale-100 text-center">
+  <div id="introModal" class="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6 md:p-8 bg-black/85 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none">
+    <div class="ottoman-popup-card w-full max-w-2xl sm:max-w-3xl min-h-[460px] sm:min-h-[520px] rounded-3xl p-8 sm:p-12 md:p-14 relative transform transition-transform duration-300 scale-100 text-center flex flex-col justify-between items-center shadow-2xl">
       
-      <!-- Başlık -->
-      <h2 class="font-serif-title text-2xl sm:text-3xl font-bold text-[#fff3cf] mb-4 leading-tight tracking-wide">
-        1683–1774 Osmanlıda Sınır Mücadeleleri
-      </h2>
+      <!-- Üst Kısım: Başlık -->
+      <div class="w-full flex flex-col items-center pt-2">
+        <!-- Başlık -->
+        <h2 class="font-serif-title text-2xl sm:text-3xl md:text-4xl font-bold text-[#fff3cf] leading-tight tracking-wide max-w-xl">
+          1683–1774 Osmanlı'da Sınır Mücadeleleri
+        </h2>
 
-      <!-- Açıklama Metni -->
-      <p class="text-sm sm:text-base text-amber-100/90 mb-7 leading-relaxed text-center px-2">
-        Bu etkinlikte, XVII ve XVIII. yüzyıl Osmanlı siyasi mücadelelerini dilsiz harita üzerinde göstererek öğreneceksiniz.
-      </p>
+        <!-- Altın Çizgi Bölücü -->
+        <div class="w-28 h-0.5 bg-gradient-to-r from-transparent via-amber-400/70 to-transparent my-5 sm:my-6"></div>
+      </div>
 
-      <!-- Başlat Butonu -->
-      <button id="startIntroBtn" class="ottoman-btn-gold w-full py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer">
-        <span>Etkinliği Başlat</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-        </svg>
-      </button>
+      <!-- Orta Kısım: Açıklama Metni -->
+      <div class="w-full max-w-xl my-auto py-2">
+        <p class="text-base sm:text-lg md:text-xl text-amber-100/90 leading-relaxed text-center font-normal">
+          Bu etkinlikte, XVII ve XVIII. yüzyıl Osmanlı siyasi mücadelelerini dilsiz harita üzerinde göstererek öğreneceksiniz.
+        </p>
+      </div>
+
+      <!-- Alt Kısım: Başlat Butonu -->
+      <div class="w-full max-w-sm mt-6">
+        <button id="startIntroBtn" class="ottoman-btn-gold w-full py-4 px-8 rounded-2xl flex items-center justify-center gap-3 text-base sm:text-lg font-bold cursor-pointer shadow-xl hover:scale-[1.02] active:scale-[0.98] transition">
+          <span>Etkinliği Başlat</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </div>
 
     </div>
   </div>
