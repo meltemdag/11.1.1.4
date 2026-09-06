@@ -1,0 +1,350 @@
+/* ========================================================
+   1683–1774 Harita Etkinliği — Özel Stiller ve Animasyonlar
+======================================================== */
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  touch-action: none;
+}
+
+.font-serif-title {
+  font-family: 'Cinzel', serif;
+}
+
+/* Harita Doğru Seçim Pini Animasyonu */
+@keyframes pinPop {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.25);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.pin-anim {
+  animation: pinPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Yanlış Seçim Kırmızı Dalga Efekti */
+@keyframes redRipple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.6);
+    opacity: 0;
+  }
+}
+
+.miss-ripple {
+  animation: redRipple 0.55s ease-out forwards;
+}
+
+/* Doğru Seçim Yeşil Halka Titreşimi */
+@keyframes greenGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(34, 197, 94, 0);
+  }
+}
+
+.success-pulse {
+  animation: greenGlow 1.8s infinite;
+}
+
+/* ========================================================
+   Harita Pinleri ve Hedef Bölgeleri (Tüm Pinleri Gösterme)
+======================================================== */
+.map-pin-item {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 12;
+  transition: transform 0.2s ease, filter 0.2s ease, opacity 0.25s ease;
+  user-select: none;
+}
+
+.map-pin-item:hover {
+  transform: translate(-50%, -50%) scale(1.18);
+  z-index: 25;
+}
+
+/* Hedef Kabul Alanı Çemberi (Hit Radius Zone) */
+.pin-target-zone {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  border: 1.5px dashed rgba(212, 175, 55, 0.35);
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.01) 70%, transparent 100%);
+  transition: all 0.3s ease;
+}
+
+/* Aktif Soru Hedef Çemberi */
+.map-pin-item.is-active .pin-target-zone {
+  border: 2px dashed rgba(245, 158, 11, 0.85);
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.04) 75%, transparent 100%);
+  animation: activeZonePulse 2s infinite ease-in-out;
+}
+
+@keyframes activeZonePulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 1;
+  }
+}
+
+/* Pin İşaretçi Rozeti */
+.pin-badge {
+  width: 1.625rem;
+  height: 1.625rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  transition: all 0.25s ease;
+  position: relative;
+  z-index: 2;
+}
+
+/* Normal Bekleyen Pin */
+.map-pin-item.is-idle .pin-badge {
+  background: #250a0e;
+  border: 1.5px solid rgba(212, 175, 55, 0.7);
+  color: #fde68a;
+}
+
+.map-pin-item.is-idle:hover .pin-badge {
+  background: #3e0d11;
+  border-color: #f59e0b;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);
+}
+
+/* Aktif Soru Pini (Vurgulu) */
+.map-pin-item.is-active {
+  z-index: 20;
+}
+
+.map-pin-item.is-active .pin-badge {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border: 2px solid #ffffff;
+  color: #1a080a;
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.9), 0 0 0 4px rgba(245, 158, 11, 0.35);
+  animation: activeBadgeGlow 1.8s infinite;
+}
+
+@keyframes activeBadgeGlow {
+  0%, 100% {
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.8), 0 0 0 3px rgba(245, 158, 11, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(245, 158, 11, 1), 0 0 0 6px rgba(245, 158, 11, 0.5);
+  }
+}
+
+/* Tamamlanmış Başarılı Pin */
+.map-pin-item.is-completed {
+  z-index: 14;
+}
+
+.map-pin-item.is-completed .pin-badge {
+  background: #16a34a;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(22, 163, 74, 0.7);
+}
+
+/* Pin İsim Etiketi */
+.pin-label-pill {
+  margin-top: 0.25rem;
+  padding: 0.125rem 0.4375rem;
+  border-radius: 0.375rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.map-pin-item.is-idle .pin-label-pill {
+  background: rgba(30, 8, 11, 0.92);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  color: #fde68a;
+}
+
+.map-pin-item.is-active .pin-label-pill {
+  background: linear-gradient(135deg, rgba(88, 22, 28, 0.95) 0%, rgba(62, 13, 17, 0.95) 100%);
+  border: 1.5px solid #f59e0b;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.5);
+}
+
+.map-pin-item.is-completed .pin-label-pill {
+  background: rgba(10, 36, 20, 0.95);
+  border: 1px solid rgba(34, 197, 94, 0.7);
+  color: #86efac;
+}
+
+/* Koordinat İpucu Kutusu (Hover Durumunda) */
+.pin-coords-tooltip {
+  position: absolute;
+  bottom: calc(100% + 0.375rem);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.15rem 0.375rem;
+  border-radius: 0.25rem;
+  background: rgba(10, 6, 4, 0.92);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: #fef08a;
+  font-size: 0.5625rem;
+  font-family: monospace;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+  z-index: 30;
+}
+
+.map-pin-item:hover .pin-coords-tooltip {
+  opacity: 1;
+}
+
+/* Pinler Katmanı Gizli Durum */
+.pins-layer-hidden .map-pin-item:not(.is-completed) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Haritanın Etrafındaki Zemin (Sıcak Antika Doku & Boşluk Alanı) */
+#viewport {
+  background: radial-gradient(ellipse at center, #35271c 0%, #221811 50%, #120d09 100%);
+  background-image: 
+    radial-gradient(ellipse at center, rgba(70, 50, 34, 0.65) 0%, rgba(28, 19, 13, 0.95) 65%, #100b07 100%),
+    repeating-linear-gradient(45deg, rgba(212, 175, 55, 0.018) 0, rgba(212, 175, 55, 0.018) 1px, transparent 0, transparent 28px);
+}
+
+/* Harita Çerçevesi ve Derinlik Efekti */
+#mapImage {
+  border-radius: 4px;
+  box-shadow: 
+    0 25px 60px -10px rgba(0, 0, 0, 0.8),
+    0 0 0 1.5px rgba(212, 175, 55, 0.25),
+    0 0 30px rgba(24, 15, 8, 0.6);
+}
+
+/* Kuzey Bölgesindeki Sabit Soru Kartı (Osmanlı Lâli & Çift Altın Varak Tasarımı) */
+.floating-question-card {
+  left: 27%;
+  top: 4.5%;
+  width: 44%;
+  min-width: 320px;
+  max-width: 590px;
+  background: linear-gradient(145deg, #58161c 0%, #3e0d11 55%, #270608 100%);
+  border: 2px solid #d4af37 !important;
+  border-radius: 14px;
+  box-shadow: 
+    0 20px 48px rgba(0, 0, 0, 0.7),
+    0 0 20px rgba(212, 175, 55, 0.28),
+    inset 0 1px 0 rgba(255, 235, 170, 0.45);
+  position: relative;
+}
+
+/* Kart İçi Zarif Altın Çerçeve Çizgisi */
+.floating-question-card::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* ========================================================
+   Osmanlı Pop-up Kartları ve Elemanları
+======================================================== */
+.ottoman-popup-card {
+  background: linear-gradient(155deg, #4d1419 0%, #300a0e 55%, #1c0507 100%);
+  border: 2px solid #d4af37 !important;
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.85),
+    0 0 25px rgba(212, 175, 55, 0.25),
+    inset 0 1px 0 rgba(255, 235, 170, 0.4);
+  position: relative;
+}
+
+.ottoman-popup-card::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+/* Pop-up İçi Bilgi Kutuları */
+.ottoman-info-box {
+  background: rgba(36, 8, 11, 0.82);
+  border: 1px solid rgba(212, 175, 55, 0.24);
+}
+
+/* Pop-up İçi Altın Varak & Kehribar Buton */
+.ottoman-btn-gold {
+  background: linear-gradient(135deg, #e5b94c 0%, #d4af37 45%, #b8860b 100%);
+  color: #24080b !important;
+  font-weight: 800;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5), 0 0 14px rgba(212, 175, 55, 0.35);
+  border: 1px solid rgba(255, 235, 170, 0.65);
+  transition: all 0.2s ease;
+}
+
+.ottoman-btn-gold:hover {
+  background: linear-gradient(135deg, #f3cf6f 0%, #e5b94c 45%, #c49419 100%);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.5);
+  transform: translateY(-1px);
+}
+
+.ottoman-btn-gold:active {
+  transform: translateY(0);
+}
+
+/* Kaydırma Çubuğu Özelleştirmesi */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(36, 12, 16, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.4);
+  border-radius: 9999px;
+}
+
