@@ -260,6 +260,10 @@ function renderPins() {
 
 function handlePinClick(m, pinEl) {
   if (isModalOpen || isPanning) return;
+  if (completedSet.has(m.id)) {
+    showInfoModal(m);
+    return;
+  }
   const currentMission = MISSIONS[currentIdx];
 
   if (m.id === currentMission.id) {
@@ -339,6 +343,10 @@ function hideInfoModal() {
 
 nextMissionBtn.addEventListener('click', () => {
   hideInfoModal();
+  if (completedSet.size === MISSIONS.length) {
+    onAllMissionsCompleted();
+    return;
+  }
   if (currentIdx < MISSIONS.length - 1) {
     setTimeout(() => {
       loadMission(currentIdx + 1);
@@ -641,7 +649,13 @@ window.addEventListener('resize', () => {
 });
 
 window.addEventListener('DOMContentLoaded', () => {
-  loadMission(0);
+  // Tüm kartları tamamlanmış olarak açma (kapanış/bitiş ekranını doğrudan inceleme modu)
+  MISSIONS.forEach(m => completedSet.add(m.id));
+  progressBar.style.width = '100%';
+  currentIdx = MISSIONS.length - 1;
+  loadMission(currentIdx);
+  onAllMissionsCompleted();
+
   if (mapImage) {
     if (mapImage.complete) {
       renderPins();
