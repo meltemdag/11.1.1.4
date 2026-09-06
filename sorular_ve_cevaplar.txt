@@ -22,7 +22,7 @@ Cevap: MACARİSTAN VE ERDEL
 Soru: 1699 Karlofça Antlaşması ile Venedik'e bırakılan, 1715 yılında ise başarılı bir seferle geri alınan Mora Yarımadası'nı harita üzerinde bulunuz.
 Cevap: MORA YARIMADASI
 Neresi: Güney Balkanlar — Mora Yarımadası
-Bilgi Notları:
+Bilgi Notu:
 - 1699 Karlofça Antlaşması ile Mora Yarımadası ve Dalmaçya kıyıları Venedik idaresine devredilmiştir.
 - Venedik'in bölgedeki Ortodoks halka uyguladığı sert baskılar üzerine 1715 yılında düzenlenen seferle Mora kısa sürede geri alınmıştır.
 - Mora'nın geri alınması, Karlofça'nın bozulduğunu iddia eden Avusturya'nın Venedik tarafında savaşa girmesine ve Pasarofça sürecine zemin hazırlamıştır.
@@ -34,7 +34,7 @@ Bilgi Notları:
 Soru: Karlofça Antlaşması ile Lehistan'a (Polonya) bırakılan stratejik Podolya (Kamaniçe) bölgesini harita üzerinde bulunuz.
 
 Neresi: Batı Ukrayna / Dinyester Havzası — Kamaniçe
-Bilgi Notları:
+Bilgi Notu:
 - 1672 Bucaş Antlaşması ile fethedilip Osmanlı'nın batıda ulaştığı en geniş sınırları temsil eden Podolya ve Kamaniçe Kalesi terk edildi.
 - Lehistan böylece güney sınırlarını güvenceye almış oldu.
 
@@ -45,7 +45,7 @@ Bilgi Notları:
 Soru: 1700 İstanbul Antlaşması ile Rus Çarlığı'na bırakılarak Rusların Karadeniz'e ilk kez çıkış kapısı elde ettiği Azak Kalesi'ni bulunuz.
 
 Neresi: Azak Denizi Kuzeydoğusu — Don Nehri Ağzı
- Bilgi Notları:
+ Bilgi Notu:
 - Karlofça görüşmelerine katılan ancak ayrı bir barış talep eden Rusya ile imzalanmıştır.
 - Azak Kalesi Ruslara bırakılmış, Rusya böylece Karadeniz'de ilk askerî varlığını elde etmiştir.
 - Rusya ayrıca İstanbul'da sürekli bir elçi bulundurma hakkı kazanmıştır.
@@ -57,7 +57,7 @@ Neresi: Azak Denizi Kuzeydoğusu — Don Nehri Ağzı
 Soru: İsveç Kralı Demirbaş Şarl'ın (XII. Karl) Rus ordusuna yenilerek Osmanlı topraklarına sığındığı Poltava bölgesini harita üzerinde bulunuz.
 
 Neresi: Doğu Ukrayna — Vorskla Nehri Kıyısı
- Bilgi Notları:
+ Bilgi Notu:
 - Büyük Kuzey Savaşı'nda Çar I. Petro, İsveç Kralı XII. Karl'ı ağır bir hezimete uğrattı.
 - Demirbaş Şarl müttefiki Kazak hatmanı ile birlikte Osmanlı sınırını geçip Bender Kalesi'ne sığındı.
 - Rus ordusunun kaçan İsveçlileri takip bahanesiyle Osmanlı topraklarına girmesi, 1711 Prut Savaşı'nın fitilini ateşledi.
@@ -68,7 +68,7 @@ Neresi: Doğu Ukrayna — Vorskla Nehri Kıyısı
 Soru: Baltacı Mehmed Paşa'nın Rus ordusunu kuşatarak Azak Kalesi'ni geri aldığı Prut Nehri kıyısını harita üzerinde bulunuz.
 
 Neresi: Boğdan — Prut Nehri Boyu
- Bilgi Notları:
+ Bilgi Notu:
 - Baltacı Mehmed Paşa komutasındaki Osmanlı ordusu, Çar Petro'yu ve ordusunu Prut bataklıklarında tamamen kuşattı.
 - Zor durumda kalan Petro barış istedi. İmzalanan Prut Antlaşması ile Azak Kalesi Osmanlı Devleti'ne geri verildi.
 - Bu zafer, Karlofça'da kaybedilen diğer toprakların da geri alınabileceği yönünde büyük bir ümit doğurdu.
@@ -80,7 +80,7 @@ Neresi: Boğdan — Prut Nehri Boyu
 Soru: Avusturya ve Venedik ile imzalanan, Osmanlı Devleti'nin Batı'nın üstünlüğünü kabul ederek Lale Devri'ne girmesine yol açan 1718 Pasarofça Antlaşması'nın imzalandığı yeri harita üzerinde bulunuz.
 Cevap: PASAROFÇA ANTLAŞMASI (1718)
 Neresi: Tuna Nehri Havzası — Pasarofça (Sırbistan)
-Bilgi Notları:
+Bilgi Notu:
 - 1716-1718 savaşlarında Petervaradin ve Temeşvar mağlubiyetleri sonrası İngiltere ve Hollanda'nın arabuluculuğuyla imzalanmıştır.
 - Belgrad, Banat ve Temeşvar Avusturya'ya bırakılmış; Mora Yarımadası ise Osmanlı Devleti'nde kalmıştır.
 - Osmanlı Devleti bu antlaşma ile Batı'nın üstünlüğünü kabul etmiş, savunma ve mevcut toprakları koruma siyasetine yönelerek Lale Devri'ne girmiştir.
@@ -93,7 +93,7 @@ Bilgi Notları:
 Soru: Baltık Denizi'nden gelerek Akdeniz'e inen Rus donanmasının Osmanlı donanmasını bir gecede yaktığı Çeşme Limanı'nı bulunuz.
 Cevap: ÇEŞME BASKINI (1770)
 Neresi: Adalar Denizi / Çeşme Limanı
-Bilgi Notları:
+Bilgi Notu:
 - Rus donanması Baltık'tan yola çıkıp Cebelitarık Boğazı'ndan Akdeniz'e inerek sürpriz bir harekât yaptı.
 - Çeşme Limanı'na sığınmış olan Osmanlı donanması, ateş gemileriyle kundaklanarak tamamen yakıldı.
 - Donanmanın yok olması sebebiyle Ruslar Adalar Denizi ve Çanakkale Boğazı önlerinde mutlak üstünlük sağladı.
@@ -117,7 +117,7 @@ Bilgi Notları:
 Soru: Kırım'ın bağımsız olmasına ve Rusya'nın Karadeniz'e kalıcı olarak yerleşmesine yol açan antlaşmanın imzalandığı kasabayı bulunuz.
 Cevap: KÜÇÜK KAYNARCA (1774)
 Neresi: Tuna Nehri Güneyi / Silistre Yakınları — Küçük Kaynarca Kasabası
-Bilgi Notları:
+Bilgi Notu:
 - Karlofça'dan sonra imzalanan en ağır antlaşmadır. Ruslar imza tarihini Prut'un intikamı olarak özellikle 21 Temmuz'a denk getirmiştir.
 - Kırım bağımsız sayılmış (yalnızca dinî bakımdan halifeye bağlı kaldı), böylece 1783 Rus ilhakının önü açılmıştır.
 - Karadeniz Türk gölü olma vasfını kaybetmiş, Rus ticaret gemilerine serbest geçiş hakkı verilmiş ve Rusya Ortodoksların koruyuculuğu iddiasıyla iç işlerine karışma fırsatı elde etmiştir.

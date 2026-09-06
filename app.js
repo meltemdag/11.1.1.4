@@ -327,11 +327,6 @@ function showCompletionModal() {
 }
 
 document.getElementById('restartFinalBtn').addEventListener('click', restartAll);
-document.getElementById('restartBtn').addEventListener('click', () => {
-  if (confirm("Etkinliği baştan başlatmak istediğinize emin misiniz?")) {
-    restartAll();
-  }
-});
 
 function restartAll() {
   reportSCORMCompletion();
