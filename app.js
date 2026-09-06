@@ -47,7 +47,7 @@ const MISSIONS = [
   {
     id: 4,
     q: "1700 İstanbul Antlaşması ile Rus Çarlığı'na bırakılarak Rusların Karadeniz'e ilk kez çıkış kapısı elde ettiği Azak Kalesi'ni bulunuz.",
-    x: 69.50, y: 34.50, r: 4.2,
+    x: 71.95, y: 34.70, r: 4.2,
     label: "AZAK KALESİ",
     where: "Azak Denizi Kuzeydoğusu — Don Nehri Ağzı",
     notes: [
@@ -59,7 +59,7 @@ const MISSIONS = [
   {
     id: 5,
     q: "İsveç Kralı Demirbaş Şarl'ın (XII. Karl) Rus ordusuna yenilerek Osmanlı topraklarına sığındığı Poltava bölgesini harita üzerinde bulunuz.",
-    x: 62.50, y: 24.00, r: 4.5,
+    x: 63.50, y: 21.90, r: 4.5,
     label: "POLTAVA (1709)",
     where: "Doğu Ukrayna — Vorskla Nehri Kıyısı",
     notes: [
@@ -71,7 +71,7 @@ const MISSIONS = [
   {
     id: 6,
     q: "Baltacı Mehmed Paşa'nın Rus ordusunu kuşatarak Azak Kalesi'ni geri aldığı Prut Nehri kıyısını harita üzerinde bulunuz.",
-    x: 52.00, y: 42.00, r: 4.2,
+    x: 49.30, y: 38.50, r: 4.2,
     label: "PRUT NEHRİ (1711)",
     where: "Boğdan — Prut Nehri Boyu",
     notes: [
@@ -83,7 +83,7 @@ const MISSIONS = [
   {
     id: 7,
     q: "Avusturya ve Venedik ile imzalanan, Osmanlı Devleti'nin Batı'nın üstünlüğünü kabul ederek Lale Devri'ne girmesine yol açan 1718 Pasarofça Antlaşması'nın imzalandığı yeri harita üzerinde bulunuz.",
-    x: 35.80, y: 48.00, r: 4.2,
+    x: 31.80, y: 46.80, r: 4.2,
     label: "PASAROFÇA ANTLAŞMASI (1718)",
     where: "Tuna Nehri Havzası — Pasarofça (Sırbistan)",
     notes: [
@@ -96,7 +96,7 @@ const MISSIONS = [
   {
     id: 8,
     q: "Baltık Denizi'nden gelerek Akdeniz'e inen Rus donanmasının Osmanlı donanmasını bir gecede yaktığı Çeşme Limanı'nı bulunuz.",
-    x: 45.80, y: 73.00, r: 3.8,
+    x: 46.00, y: 77.40, r: 3.8,
     label: "ÇEŞME BASKINI (1770)",
     where: "Adalar Denizi / Çeşme Limanı",
     notes: [

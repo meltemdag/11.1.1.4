@@ -270,21 +270,22 @@ body {
     0 0 30px rgba(24, 15, 8, 0.6);
 }
 
-/* Kuzey Bölgesindeki Sabit Soru Kartı (Osmanlı Lâli & Çift Altın Varak Tasarımı) */
+/* Sabit Üst Soru Kartı (Bağımsız, Her Zaman Görünür) */
 .floating-question-card {
-  left: 27%;
-  top: 4.5%;
-  width: 44%;
-  min-width: 320px;
-  max-width: 590px;
+  position: fixed;
+  top: 3.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 2rem);
+  max-width: 672px;
   background: linear-gradient(145deg, #58161c 0%, #3e0d11 55%, #270608 100%);
   border: 2px solid #d4af37 !important;
   border-radius: 14px;
   box-shadow: 
-    0 20px 48px rgba(0, 0, 0, 0.7),
-    0 0 20px rgba(212, 175, 55, 0.28),
+    0 16px 40px rgba(0, 0, 0, 0.75),
+    0 0 20px rgba(212, 175, 55, 0.3),
     inset 0 1px 0 rgba(255, 235, 170, 0.45);
-  position: relative;
+  z-index: 60;
 }
 
 /* Kart İçi Zarif Altın Çerçeve Çizgisi */

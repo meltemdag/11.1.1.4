@@ -23,12 +23,12 @@
   ======================================================== -->
   <header class="fixed top-0 inset-x-0 z-30 px-3 sm:px-6 py-2.5 bg-[#1a130d]/95 border-b border-[#3c2a1a] shadow-2xl backdrop-blur-md flex items-center justify-between gap-4">
     <!-- Sol: Dönem Rozeti ve Açıklama Metni -->
-    <div class="flex items-center gap-3 min-w-0">
+    <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
       <span class="px-2.5 py-1 rounded-md bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-xs tracking-wider uppercase shrink-0 shadow-sm">
         1683–1774
       </span>
-      <p class="text-xs sm:text-sm font-semibold text-amber-100/90 truncate">
-        Soruda belirtilen alanı dilsiz harita üzerinde bularak işaretleyiniz.
+      <p class="text-xs sm:text-[13px] font-medium text-amber-100/90 leading-snug">
+        Soru kartını okuyunuz ve sorulan bölgeyi harita üzerinde bularak üzerine tıklayınız.
       </p>
     </div>
 
@@ -60,21 +60,21 @@
            class="max-w-[100vw] max-h-[calc(100vh-3rem)] w-auto h-auto object-contain block pointer-events-none drop-shadow-2xl"
            draggable="false">
 
-      <!-- ========================================================
-           KUZEY ALANINDAKİ DİKDÖRTGEN SORU KARTI
-           Opak koyu zemin (#0b1120), altın kenarlık ve net beyaz soru metni.
-      ======================================================== -->
-      <div id="floatingQuestionCard" 
-           class="floating-question-card absolute z-20 pointer-events-auto select-none rounded-xl border-2 border-amber-500 p-4 sm:p-5 transition-all duration-300">
-        <p id="cardQuestionText" class="text-sm sm:text-base md:text-[17px] font-bold text-white leading-relaxed tracking-normal">
-          Soru metni yükleniyor...
-        </p>
-      </div>
-
       <!-- Harita Üzerindeki Başarılı İşaretlerin Katmanı -->
       <div id="pinsContainer" class="absolute inset-0 pointer-events-none">
         <!-- Başarılı İşaretler Buraya Dinamik Eklenir -->
       </div>
+    </div>
+
+    <!-- ========================================================
+         SABİT ÜST SORU KARTI (BAĞIMSIZ KART)
+         Cevap pop-up'ı açıldığında da yukarıda ayrı bir kart olarak net görünür.
+    ======================================================== -->
+    <div id="floatingQuestionCard" 
+         class="floating-question-card pointer-events-auto select-none p-3.5 sm:p-4 transition-all duration-300">
+      <p id="cardQuestionText" class="text-sm sm:text-base md:text-[15px] font-bold text-white leading-relaxed tracking-normal text-center">
+        Soru metni yükleniyor...
+      </p>
     </div>
   </main>
 
@@ -91,15 +91,13 @@
   </div>
 
   <!-- ========================================================
-       3. BİLGİ POP-UP PENCERESİ (OLAY KARTI — BAŞARILI EŞLEŞME)
+       3. BİLGİ POP-UP PENCERESİ (CEVAP KARTI — SORU KARTININ HEMEN ALTINDA AÇILIR)
   ======================================================== -->
-  <div id="infoModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none">
-    <div class="ottoman-popup-card w-full max-w-2xl max-h-[90vh] flex flex-col rounded-2xl overflow-hidden transform transition-transform duration-300 scale-95 relative">
+  <div id="infoModal" class="fixed inset-0 z-50 flex flex-col items-center justify-start pt-36 sm:pt-40 pb-6 px-3 sm:px-4 bg-black/60 backdrop-blur-[2px] transition-opacity duration-300 opacity-0 pointer-events-none overflow-y-auto">
+    <div class="ottoman-popup-card w-full max-w-2xl flex flex-col rounded-2xl overflow-hidden transform transition-transform duration-300 scale-95 relative">
       
-
-
       <!-- Kaydırılabilir İçerik Alanı -->
-      <div class="p-5 sm:p-7 overflow-y-auto space-y-4">
+      <div class="p-5 sm:p-7 overflow-y-auto space-y-4 max-h-[calc(100vh-16rem)]">
         <h2 id="infoTitle" class="font-serif-title text-xl sm:text-2xl font-bold text-[#fff3cf] tracking-wide">
           Bölge Adı
         </h2>
