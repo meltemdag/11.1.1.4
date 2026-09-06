@@ -164,7 +164,12 @@ const infoNotes = document.getElementById('infoNotes');
 const nextMissionBtn = document.getElementById('nextMissionBtn');
 const nextBtnText = document.getElementById('nextBtnText');
 
-const completionModal = document.getElementById('completionModal');
+const finalActionBar = document.getElementById('finalActionBar');
+const restartFromMapBtn = document.getElementById('restartFromMapBtn');
+const finishActivityBtn = document.getElementById('finishActivityBtn');
+const exitModal = document.getElementById('exitModal');
+const closeWindowBtn = document.getElementById('closeWindowBtn');
+
 const feedbackToast = document.getElementById('feedbackToast');
 const feedbackText = document.getElementById('feedbackText');
 
@@ -174,6 +179,10 @@ const introHelpBtn = document.getElementById('introHelpBtn');
 
 function isIntroOpen() {
   return introModal && !introModal.classList.contains('pointer-events-none');
+}
+
+function isExitModalOpen() {
+  return exitModal && !exitModal.classList.contains('pointer-events-none');
 }
 
 /* --------------------------------------------------------
@@ -285,7 +294,7 @@ function showInfoModal(m) {
   });
 
   if (currentIdx === MISSIONS.length - 1) {
-    nextBtnText.textContent = "Tamamla ✓";
+    nextBtnText.textContent = "Kapat ve Haritaya Dön ✓";
   } else {
     nextBtnText.textContent = "Kapat ve Sıradakine Geç →";
   }
@@ -310,8 +319,8 @@ nextMissionBtn.addEventListener('click', () => {
     }, 250);
   } else {
     setTimeout(() => {
-      showCompletionModal();
-    }, 300);
+      onAllMissionsCompleted();
+    }, 250);
   }
 });
 
@@ -326,30 +335,70 @@ function reportSCORMCompletion() {
   }
 }
 
-function showCompletionModal() {
-  isModalOpen = true;
-  completionModal.classList.remove('opacity-0', 'pointer-events-none');
-  completionModal.firstElementChild.classList.remove('scale-95');
-  completionModal.firstElementChild.classList.add('scale-100');
+function onAllMissionsCompleted() {
   reportSCORMCompletion();
+  
+  if (cardQuestionText) {
+    cardQuestionText.textContent = "Tebrikler! 1683–1774 dönemine ait tüm sınır mücadelelerini başarıyla tamamladınız. Harita üzerindeki noktaları inceleyebilirsiniz.";
+  }
+
+  if (finalActionBar) {
+    finalActionBar.classList.remove('opacity-0', 'translate-y-6', 'pointer-events-none');
+    finalActionBar.classList.add('opacity-100', 'translate-y-0');
+  }
 }
 
-document.getElementById('restartFinalBtn').addEventListener('click', restartAll);
-
-function restartAll() {
+function restartAllFromMap() {
   reportSCORMCompletion();
+  if (finalActionBar) {
+    finalActionBar.classList.add('opacity-0', 'translate-y-6', 'pointer-events-none');
+    finalActionBar.classList.remove('opacity-100', 'translate-y-0');
+  }
   completedSet.clear();
-  completionModal.classList.add('opacity-0', 'pointer-events-none');
+  progressBar.style.width = '0%';
   hideInfoModal();
   resetTransform();
   loadMission(0);
+  openIntroModal();
+}
+
+function finishActivity() {
+  reportSCORMCompletion();
+  if (finalActionBar) {
+    finalActionBar.classList.add('opacity-0', 'pointer-events-none');
+  }
+  if (exitModal) {
+    exitModal.classList.remove('opacity-0', 'pointer-events-none');
+    exitModal.classList.add('opacity-100');
+    exitModal.firstElementChild.classList.remove('scale-95');
+    exitModal.firstElementChild.classList.add('scale-100');
+  }
+  try {
+    window.close();
+  } catch (e) {}
+}
+
+if (restartFromMapBtn) {
+  restartFromMapBtn.addEventListener('click', restartAllFromMap);
+}
+
+if (finishActivityBtn) {
+  finishActivityBtn.addEventListener('click', finishActivity);
+}
+
+if (closeWindowBtn) {
+  closeWindowBtn.addEventListener('click', () => {
+    try {
+      window.close();
+    } catch (e) {}
+  });
 }
 
 /* --------------------------------------------------------
    F. HARİTA TIKLAMA VE İSABET MANTIĞI
 -------------------------------------------------------- */
 viewport.addEventListener('click', (e) => {
-  if (isModalOpen || isIntroOpen() || isPanning || e.target.closest('#floatingQuestionCard') || e.target.closest('.map-pin-item')) return;
+  if (isModalOpen || isIntroOpen() || isExitModalOpen() || isPanning || e.target.closest('#floatingQuestionCard') || e.target.closest('.map-pin-item') || e.target.closest('#finalActionBar')) return;
 
   const rect = mapImage.getBoundingClientRect();
   if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
@@ -476,7 +525,7 @@ viewport.addEventListener('pointerdown', (e) => {
 });
 
 viewport.addEventListener('wheel', (e) => {
-  if (isModalOpen || isIntroOpen()) return;
+  if (isModalOpen || isIntroOpen() || isExitModalOpen()) return;
   e.preventDefault();
   const delta = e.deltaY < 0 ? 0.15 : -0.15;
   zoomLevel = Math.min(Math.max(zoomLevel + delta, 0.85), 3.2);
