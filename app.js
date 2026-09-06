@@ -188,6 +188,22 @@ function isExitModalOpen() {
 /* --------------------------------------------------------
    C. HARİTA PİNLERİNİ ÇİZME VE GÜNCELLEME
 -------------------------------------------------------- */
+let revealedPinTimeout = null;
+
+function revealPinLabel(pinEl) {
+  // Önceki geçici açılmış etiketleri temizle
+  document.querySelectorAll('.map-pin-item.is-revealed').forEach(el => {
+    if (el !== pinEl) el.classList.remove('is-revealed');
+  });
+
+  pinEl.classList.add('is-revealed');
+
+  if (revealedPinTimeout) clearTimeout(revealedPinTimeout);
+  revealedPinTimeout = setTimeout(() => {
+    pinEl.classList.remove('is-revealed');
+  }, 2800);
+}
+
 function renderPins() {
   pinsContainer.innerHTML = '';
 
@@ -212,7 +228,10 @@ function renderPins() {
       stateClass = 'is-active';
     }
 
-    pinEl.className = `map-pin-item ${stateClass}`;
+    // Haritanın alt kısmındaki pinlerde etiketi rozetin üstüne yerleştir
+    const positionClass = m.y > 75 ? 'label-top' : '';
+
+    pinEl.className = `map-pin-item ${stateClass} ${positionClass}`.trim();
     pinEl.style.left = `${m.x}%`;
     pinEl.style.top = `${m.y}%`;
     pinEl.dataset.id = m.id;
@@ -222,7 +241,9 @@ function renderPins() {
 
     pinEl.innerHTML = `
       <div class="pin-target-zone" style="width: ${diameterPx.toFixed(1)}px; height: ${diameterPx.toFixed(1)}px;"></div>
-      <div class="pin-coords-tooltip">X: %${m.x.toFixed(1)} | Y: %${m.y.toFixed(1)}</div>
+      <div class="pin-badge" title="${m.label}">
+        <span>${isCompleted ? '✓' : m.id}</span>
+      </div>
       <div class="pin-label-pill">
         ${isCompleted ? `${m.label} ✓` : m.label}
       </div>
@@ -230,20 +251,25 @@ function renderPins() {
 
     pinEl.addEventListener('click', (e) => {
       e.stopPropagation();
-      handlePinClick(m);
+      handlePinClick(m, pinEl);
     });
 
     pinsContainer.appendChild(pinEl);
   });
 }
 
-function handlePinClick(m) {
+function handlePinClick(m, pinEl) {
   if (isModalOpen || isPanning) return;
   const currentMission = MISSIONS[currentIdx];
 
   if (m.id === currentMission.id) {
     handleSuccess(m);
   } else {
+    // Mobilde ve masaüstünde tıklanan pinin etiketini mini balon olarak aç
+    if (pinEl) {
+      revealPinLabel(pinEl);
+    }
+
     createMissRipple(m.x, m.y);
 
     const diffX = m.x - currentMission.x;
@@ -400,6 +426,9 @@ if (closeWindowBtn) {
 viewport.addEventListener('click', (e) => {
   if (isModalOpen || isIntroOpen() || isExitModalOpen() || isPanning || e.target.closest('#floatingQuestionCard') || e.target.closest('.map-pin-item') || e.target.closest('#finalActionBar')) return;
 
+  // Açık olan geçici balonları kapat
+  document.querySelectorAll('.map-pin-item.is-revealed').forEach(el => el.classList.remove('is-revealed'));
+
   const rect = mapImage.getBoundingClientRect();
   if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
     return;
@@ -531,6 +560,39 @@ viewport.addEventListener('wheel', (e) => {
   zoomLevel = Math.min(Math.max(zoomLevel + delta, 0.85), 3.2);
   updateTransform();
 }, { passive: false });
+
+/* Mobil İki Parmakla Yakınlaştırma (Pinch to Zoom) */
+let initialPinchDistance = null;
+let initialPinchZoom = 1;
+
+viewport.addEventListener('touchstart', (e) => {
+  if (isModalOpen) return;
+  if (e.touches.length === 2) {
+    isPanning = false;
+    const dx = e.touches[0].clientX - e.touches[1].clientX;
+    const dy = e.touches[0].clientY - e.touches[1].clientY;
+    initialPinchDistance = Math.hypot(dx, dy);
+    initialPinchZoom = zoomLevel;
+  }
+}, { passive: true });
+
+viewport.addEventListener('touchmove', (e) => {
+  if (isModalOpen) return;
+  if (e.touches.length === 2 && initialPinchDistance) {
+    const dx = e.touches[0].clientX - e.touches[1].clientX;
+    const dy = e.touches[0].clientY - e.touches[1].clientY;
+    const dist = Math.hypot(dx, dy);
+    const factor = dist / initialPinchDistance;
+    zoomLevel = Math.min(Math.max(initialPinchZoom * factor, 0.85), 3.5);
+    updateTransform();
+  }
+}, { passive: true });
+
+viewport.addEventListener('touchend', (e) => {
+  if (e.touches.length < 2) {
+    initialPinchDistance = null;
+  }
+}, { passive: true });
 
 /* --------------------------------------------------------
    H. PİN KONTROLLERİ VE İLK BAŞLATMA
