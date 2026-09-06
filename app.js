@@ -206,16 +206,8 @@ function renderPins() {
     pinEl.innerHTML = `
       <div class="pin-target-zone" style="width: ${diameterPx.toFixed(1)}px; height: ${diameterPx.toFixed(1)}px;"></div>
       <div class="pin-coords-tooltip">X: %${m.x.toFixed(1)} | Y: %${m.y.toFixed(1)}</div>
-      <div class="pin-badge">
-        ${isCompleted 
-          ? `<svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-             </svg>`
-          : m.id
-        }
-      </div>
       <div class="pin-label-pill">
-        ${isCompleted ? `${m.label} ✓` : `${m.id}. ${m.label}`}
+        ${isCompleted ? `${m.label} ✓` : m.label}
       </div>
     `;
 
