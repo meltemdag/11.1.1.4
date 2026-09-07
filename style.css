@@ -62,7 +62,7 @@ body {
 }
 
 /* ========================================================
-   Harita Pinleri ve Hedef Bölgeleri (Tüm Pinleri Gösterme)
+   Harita Pinleri ve Hedef Bölgeleri (Masaüstü Temel Stiller)
 ======================================================== */
 .map-pin-item {
   position: absolute;
@@ -80,6 +80,10 @@ body {
 .map-pin-item:hover {
   transform: translate(-50%, -50%) scale(1.18);
   z-index: 25;
+}
+
+.map-pin-item.is-active {
+  z-index: 40;
 }
 
 /* Hedef Kabul Alanı Çemberi (Hit Radius Zone) */
@@ -113,86 +117,31 @@ body {
   }
 }
 
-/* Pin İşaretçi Rozeti */
+/* Masaüstünde Pin Rozeti Kesinlikle Gizlidir */
 .pin-badge {
-  width: 1.625rem;
-  height: 1.625rem;
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.6875rem;
-  font-weight: 800;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-  transition: all 0.25s ease;
-  position: relative;
-  z-index: 2;
+  display: none;
 }
 
-/* Normal Bekleyen Pin */
-.map-pin-item.is-idle .pin-badge {
-  background: #250a0e;
-  border: 1.5px solid rgba(212, 175, 55, 0.7);
-  color: #fde68a;
-}
-
-.map-pin-item.is-idle:hover .pin-badge {
-  background: #3e0d11;
-  border-color: #f59e0b;
-  color: #ffffff;
-  box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);
-}
-
-/* Aktif Soru Pini (Vurgulu) */
-.map-pin-item.is-active {
-  z-index: 20;
-}
-
-.map-pin-item.is-active .pin-badge {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  border: 2px solid #ffffff;
-  color: #1a080a;
-  box-shadow: 0 0 18px rgba(245, 158, 11, 0.9), 0 0 0 4px rgba(245, 158, 11, 0.35);
-  animation: activeBadgeGlow 1.8s infinite;
-}
-
-@keyframes activeBadgeGlow {
-  0%, 100% {
-    box-shadow: 0 0 14px rgba(245, 158, 11, 0.8), 0 0 0 3px rgba(245, 158, 11, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 22px rgba(245, 158, 11, 1), 0 0 0 6px rgba(245, 158, 11, 0.5);
-  }
-}
-
-/* Tamamlanmış Başarılı Pin */
-.map-pin-item.is-completed {
-  z-index: 14;
-}
-
-.map-pin-item.is-completed .pin-badge {
-  background: #16a34a;
-  border: 2px solid #ffffff;
-  color: #ffffff;
-  box-shadow: 0 0 12px rgba(22, 163, 74, 0.7);
-}
-
-/* Pin İsim Etiketi */
+/* Pin İsim Etiketi (Masaüstü Orijinal Şık Hap Stili) */
 .pin-label-pill {
   margin-top: 0;
-  padding: 0.2rem 0.6rem;
+  padding: 0.42rem 0.9rem;
+  min-height: 1.875rem;
   border-radius: 9999px;
-  font-size: 0.6875rem;
+  font-size: 0.71875rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  line-height: 1.25;
+  letter-spacing: 0.025em;
   white-space: nowrap;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.65);
   transition: all 0.25s ease;
   z-index: 2;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
+  justify-content: center;
+  gap: 0.35rem;
+  pointer-events: auto;
 }
 
 .map-pin-item.is-idle .pin-label-pill {
@@ -222,55 +171,55 @@ body {
   box-shadow: 0 0 12px rgba(22, 163, 74, 0.6);
 }
 
-/* Koordinat İpucu Kutusu (Hover Durumunda) */
-.pin-coords-tooltip {
-  position: absolute;
-  bottom: calc(100% + 0.375rem);
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 0.15rem 0.375rem;
-  border-radius: 0.25rem;
-  background: rgba(10, 6, 4, 0.92);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  color: #fef08a;
-  font-size: 0.5625rem;
-  font-family: monospace;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
-  z-index: 30;
-}
-
-.map-pin-item:hover .pin-coords-tooltip {
-  opacity: 1;
-}
-
 /* Pinler Katmanı Gizli Durum */
 .pins-layer-hidden .map-pin-item:not(.is-completed) {
   opacity: 0;
   pointer-events: none;
 }
 
-/* Haritanın Etrafındaki Zemin (Sıcak Antika Doku & Boşluk Alanı) */
+/* ========================================================
+   Harita Çerçevesi, Zemin ve Dönüşüm Katmanı
+======================================================== */
 #viewport {
   background: radial-gradient(ellipse at center, #35271c 0%, #221811 50%, #120d09 100%);
-  background-image: 
+  background-image:
     radial-gradient(ellipse at center, rgba(70, 50, 34, 0.65) 0%, rgba(28, 19, 13, 0.95) 65%, #100b07 100%),
     repeating-linear-gradient(45deg, rgba(212, 175, 55, 0.018) 0, rgba(212, 175, 55, 0.018) 1px, transparent 0, transparent 28px);
 }
 
-/* Harita Çerçevesi ve Derinlik Efekti */
+#mapTransformLayer {
+  display: inline-block;
+  line-height: 0;
+  max-width: 100vw;
+  max-height: calc(100vh - 3.25rem);
+}
+
 #mapImage {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100vw;
+  max-height: calc(100vh - 3.25rem);
+  object-fit: contain;
+  aspect-ratio: 1917 / 1032;
   border-radius: 4px;
-  box-shadow: 
+  box-shadow:
     0 25px 60px -10px rgba(0, 0, 0, 0.8),
     0 0 0 1.5px rgba(212, 175, 55, 0.25),
     0 0 30px rgba(24, 15, 8, 0.6);
 }
 
-/* Sabit Üst Soru Kartı (Bağımsız, Her Zaman Görünür) */
+#pinsContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ========================================================
+   Sabit Üst Soru Kartı (Masaüstü Temel)
+======================================================== */
 .floating-question-card {
   position: fixed;
   top: 3.75rem;
@@ -281,7 +230,7 @@ body {
   background: linear-gradient(145deg, #58161c 0%, #3e0d11 55%, #270608 100%);
   border: 2px solid #d4af37 !important;
   border-radius: 15px;
-  box-shadow: 
+  box-shadow:
     0 16px 40px rgba(0, 0, 0, 0.75),
     0 0 20px rgba(212, 175, 55, 0.3),
     inset 0 1px 0 rgba(255, 235, 170, 0.45);
@@ -304,7 +253,7 @@ body {
 .ottoman-popup-card {
   background: linear-gradient(155deg, #4d1419 0%, #300a0e 55%, #1c0507 100%);
   border: 2px solid #d4af37 !important;
-  box-shadow: 
+  box-shadow:
     0 25px 60px rgba(0, 0, 0, 0.85),
     0 0 25px rgba(212, 175, 55, 0.25),
     inset 0 1px 0 rgba(255, 235, 170, 0.4);
@@ -370,3 +319,163 @@ body {
   z-index: 80;
 }
 
+/* ========================================================
+   MOBİL ÖZEL STİLLER (AKILLI MOBİL PİN & ÇAKIŞMA ÖNLEME)
+======================================================== */
+@media (max-width: 767px) {
+  /* Mobilde pin referansı sıfır boyutlu nokta */
+  .map-pin-item {
+    transform: none;
+    width: 0;
+    height: 0;
+  }
+
+  .map-pin-item:hover {
+    transform: none;
+  }
+
+  /* Mobilde Pin Rozeti Görünür ve Merkezde */
+  .pin-badge {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1.375rem;
+    height: 1.375rem;
+    border-radius: 9999px;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.625rem;
+    font-weight: 800;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
+    z-index: 2;
+    border: 1.5px solid rgba(212, 175, 55, 0.7);
+    background: #250a0e;
+    color: #fde68a;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  /* Dokunmatik Ekranlarda İsabet Alanı Genişletici (44px Apple/Android standart dokunma alanı) */
+  .pin-badge::after {
+    content: '';
+    position: absolute;
+    inset: -11px;
+    border-radius: 50%;
+    pointer-events: auto;
+  }
+
+  .map-pin-item.is-idle .pin-badge {
+    background: #250a0e;
+    border: 1.5px solid rgba(212, 175, 55, 0.7);
+    color: #fde68a;
+  }
+
+  .map-pin-item.is-active .pin-badge {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    border: 2px solid #ffffff;
+    color: #1a080a;
+    box-shadow: 0 0 16px rgba(245, 158, 11, 0.95);
+    animation: activeBadgeGlow 1.8s infinite;
+  }
+
+  .map-pin-item.is-completed .pin-badge {
+    background: #16a34a;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    box-shadow: 0 0 10px rgba(22, 163, 74, 0.7);
+  }
+
+  /* Mobilde etiketler varsayılan olarak gizli (üst üste binmeyi önler) */
+  .pin-label-pill {
+    position: absolute;
+    top: calc(50% + 14px);
+    left: 50%;
+    font-size: 0.65625rem;
+    padding: 0.3rem 0.65rem;
+    min-height: 1.55rem;
+    line-height: 1.25;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(4px) scale(0.92);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  }
+
+  .map-pin-item.label-top .pin-label-pill {
+    top: auto;
+    bottom: calc(50% + 20px);
+  }
+
+  /* Aktif Soru Pini: Mobilde daima görünür ve vurgulu */
+  .map-pin-item.is-active {
+    z-index: 40 !important;
+  }
+
+  .map-pin-item.is-active .pin-label-pill {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0) scale(1);
+    z-index: 30;
+  }
+
+  /* Kullanıcı bir pine dokunduğunda (revealed): Açılır mini balon efekti */
+  .map-pin-item.is-revealed {
+    z-index: 50 !important;
+  }
+
+  .map-pin-item.is-revealed .pin-badge {
+    transform: translate(-50%, -50%) scale(1.22);
+    box-shadow: 0 0 16px rgba(245, 158, 11, 0.95);
+    border-color: #f59e0b;
+  }
+
+  .map-pin-item.is-revealed .pin-label-pill {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(-50%) translateY(0) scale(1) !important;
+    z-index: 35 !important;
+    animation: mobileTooltipPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  /* Mobilde Sabit Soru Kartı: Kompakt, çakışmasız ve ferah (Yönerge şeridinin altında) */
+  .floating-question-card {
+    top: 5.75rem;
+    width: calc(100% - 1.25rem);
+    max-width: calc(100% - 1.25rem);
+    border-radius: 12px;
+  }
+
+  .floating-question-card::before {
+    inset: 2.5px;
+    border-radius: 8px;
+  }
+
+  #viewport {
+    padding-top: 4rem;
+  }
+
+  #mapTransformLayer,
+  #mapImage {
+    max-height: calc(100dvh - 5.5rem);
+  }
+
+  #infoModal {
+    padding-top: 11rem;
+    padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@keyframes mobileTooltipPop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(6px) scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
