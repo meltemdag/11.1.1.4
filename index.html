@@ -34,13 +34,13 @@
 
     <!-- Sağ: Kompakt Harita Kontrolleri -->
     <div class="flex items-center gap-1.5 shrink-0">
-      <button id="togglePinsBtn" title="Pinleri Göster / Gizle" class="flex items-center gap-1.5 px-2.5 py-1 sm:py-1.5 rounded-lg bg-[#251b12] hover:bg-[#38281a] text-amber-300 border border-amber-500/40 text-[11px] sm:text-xs font-bold transition shadow-sm">
+      <div id="missionProgressBadge" class="flex items-center gap-1.5 px-2.5 py-1 sm:py-1.5 rounded-lg bg-[#251b12] border border-amber-500/40 text-amber-300 text-[11px] sm:text-xs font-bold shadow-sm">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
-        <span id="togglePinsText" class="hidden sm:inline">Pinler: Açık</span>
-      </button>
+        <span id="missionProgressText">1 / 10 Bölge</span>
+      </div>
 
       <button id="fullscreenBtn" title="Tam Ekran" class="flex w-7 h-7 sm:w-8 sm:h-8 items-center justify-center rounded-lg bg-[#251b12] hover:bg-[#38281a] text-amber-200/80 hover:text-white border border-[#433020] transition shadow-sm">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -51,7 +51,7 @@
   </header>
 
   <!-- ========================================================
-       MOBİL YÖNERGE ŞERİDİ (BAŞLIK KARTININ DIŞINDA, HER ZAMAN GÖRÜNÜR)
+       MOBİL AÇIKLAMA ŞERİDİ (BAŞLIK KARTININ DIŞINDA, HER ZAMAN GÖRÜNÜR)
   ======================================================== -->
   <div id="mobileInstructionBanner" class="md:hidden fixed top-11 inset-x-0 z-20 px-3 py-1.5 bg-[#170f0a]/95 border-b border-[#3c2a1a] shadow-md backdrop-blur-md flex items-center justify-center text-center">
     <p class="text-[11px] sm:text-xs font-medium text-amber-100/90 leading-tight">
@@ -159,7 +159,63 @@
   </div>
 
   <!-- ========================================================
-       4. ETKİNLİK KAPANIŞ EKRANI (ETKİNLİĞİ BİTİR TIKLANDIĞINDA)
+       4. ETKİNLİK TAMAMLAMA VE KAPANIŞ BİLDİRİMİ
+       Tüm 10 bölge doğru bulunduğunda otomatik açılır.
+  ======================================================== -->
+  <div id="completionModal" class="fixed inset-0 z-[75] flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none">
+    <div class="ottoman-popup-card w-full max-w-lg rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center relative transform transition-transform duration-300 scale-95 shadow-2xl max-h-[92dvh] overflow-y-auto">
+      
+      <!-- Başarı İkonu -->
+      <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-amber-300 shadow-xl shadow-amber-950/60">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-9 sm:w-11 sm:h-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+
+      <!-- Başlık -->
+      <h2 class="font-serif-title text-xl sm:text-3xl font-bold text-[#fff3cf] mb-2 leading-tight">
+        Tebrikler!
+      </h2>
+      <p class="text-xs sm:text-sm font-semibold text-amber-300/90 mb-3 tracking-wide uppercase">
+        Tüm Stratejik Noktaları Buldunuz
+      </p>
+
+      <div class="w-20 h-0.5 bg-gradient-to-r from-transparent via-amber-400/70 to-transparent mx-auto my-3"></div>
+
+      <!-- Açıklama Metni -->
+      <p class="text-xs sm:text-sm text-amber-100/90 mb-5 leading-relaxed">
+        1683–1774 dönemine ait 10 kritik sınır bölgesini dilsiz harita üzerinde başarıyla tespit ettiniz ve tüm bilgi kartlarının kilidini açtınız.
+      </p>
+
+      <!-- İstatistik Rozeti -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#350d12] border border-amber-500/40 text-amber-200 text-xs sm:text-sm font-bold mb-6">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span>10 / 10 Bölge Kilidi Açıldı</span>
+      </div>
+
+      <!-- Butonlar -->
+      <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3 justify-center">
+        <button id="exploreMapBtn" class="px-4 py-2.5 sm:py-3 rounded-xl bg-[#2e0b10] hover:bg-[#481119] text-amber-200 border border-amber-500/50 text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 cursor-pointer shadow-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+          <span>Haritayı İncele</span>
+        </button>
+
+        <button id="completionFinishBtn" class="ottoman-btn-gold px-5 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#24080b]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>Etkinliği Bitir</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================
+       5. ETKİNLİK KAPANIŞ EKRANI (ETKİNLİĞİ BİTİR TIKLANDIĞINDA)
   ======================================================== -->
   <div id="exitModal" class="fixed inset-0 z-[80] flex items-center justify-center p-3 sm:p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none">
     <div class="ottoman-popup-card w-full max-w-md rounded-2xl p-5 sm:p-8 text-center relative transform transition-transform duration-300 scale-95 max-h-[92dvh] overflow-y-auto">

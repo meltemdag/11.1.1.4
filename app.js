@@ -154,8 +154,8 @@ const pinsContainer = document.getElementById('pinsContainer');
 const cardQuestionText = document.getElementById('cardQuestionText');
 const progressBar = document.getElementById('progressBar');
 
-const togglePinsBtn = document.getElementById('togglePinsBtn');
-const togglePinsText = document.getElementById('togglePinsText');
+const missionProgressBadge = document.getElementById('missionProgressBadge');
+const missionProgressText = document.getElementById('missionProgressText');
 
 const infoModal = document.getElementById('infoModal');
 const infoTitle = document.getElementById('infoTitle');
@@ -170,12 +170,15 @@ const finishActivityBtn = document.getElementById('finishActivityBtn');
 const exitModal = document.getElementById('exitModal');
 const closeWindowBtn = document.getElementById('closeWindowBtn');
 
+const completionModal = document.getElementById('completionModal');
+const exploreMapBtn = document.getElementById('exploreMapBtn');
+const completionFinishBtn = document.getElementById('completionFinishBtn');
+
 const feedbackToast = document.getElementById('feedbackToast');
 const feedbackText = document.getElementById('feedbackText');
 
 const introModal = document.getElementById('introModal');
 const startIntroBtn = document.getElementById('startIntroBtn');
-const introHelpBtn = document.getElementById('introHelpBtn');
 
 function isIntroOpen() {
   return introModal && !introModal.classList.contains('pointer-events-none');
@@ -185,54 +188,37 @@ function isExitModalOpen() {
   return exitModal && !exitModal.classList.contains('pointer-events-none');
 }
 
-/* --------------------------------------------------------
-   C. HARİTA PİNLERİNİ ÇİZME VE GÜNCELLEME
--------------------------------------------------------- */
-let revealedPinTimeout = null;
-
-function revealPinLabel(pinEl) {
-  // Önceki geçici açılmış etiketleri temizle
-  document.querySelectorAll('.map-pin-item.is-revealed').forEach(el => {
-    if (el !== pinEl) el.classList.remove('is-revealed');
-  });
-
-  pinEl.classList.add('is-revealed');
-
-  if (revealedPinTimeout) clearTimeout(revealedPinTimeout);
-  revealedPinTimeout = setTimeout(() => {
-    pinEl.classList.remove('is-revealed');
-  }, 2800);
+function isCompletionModalOpen() {
+  return completionModal && !completionModal.classList.contains('pointer-events-none');
 }
+
+/* --------------------------------------------------------
+   C. HARİTA PİNLERİNİ ÇİZME VE GÜNCELLEME (KİLİTLİ PİN SİSTEMİ)
+   Henüz doğru bulunmamış pinler haritada kilitlidir (gizlidir).
+   Yalnızca öğrenci doğru noktayı buldukça pin kilidi açılır ve görünür olur.
+-------------------------------------------------------- */
+let newlyUnlockedPinId = null;
 
 function renderPins() {
   pinsContainer.innerHTML = '';
 
-  if (showPins) {
-    pinsContainer.classList.remove('pins-layer-hidden');
-  } else {
-    pinsContainer.classList.add('pins-layer-hidden');
-  }
-
-  const currentMission = MISSIONS[currentIdx];
   const mapH = mapImage.clientHeight || 650;
 
+  // SADECE doğru bulunup tamamlanmış (kilidi açılmış) pinleri render et
   MISSIONS.forEach(m => {
-    const isCompleted = completedSet.has(m.id);
-    const isActive = (m.id === currentMission.id);
+    if (!completedSet.has(m.id)) {
+      return; // Kilitli pin, haritada gösterilmez
+    }
 
     const pinEl = document.createElement('div');
-    let stateClass = 'is-idle';
-    if (isCompleted) {
-      stateClass = 'is-completed';
-    } else if (isActive) {
-      stateClass = 'is-active';
-    }
+    const isNew = (m.id === newlyUnlockedPinId);
 
     // Haritanın alt kısmındaki veya altında başka bir pin olan noktalarda etiketi rozetin üstüne yerleştir
     const labelTopIds = [1, 2, 3, 8];
     const positionClass = (labelTopIds.includes(m.id) || m.y > 72) ? 'label-top' : '';
+    const unlockAnimClass = isNew ? 'pin-anim pin-unlock-glow' : '';
 
-    pinEl.className = `map-pin-item ${stateClass} ${positionClass}`.trim();
+    pinEl.className = `map-pin-item is-completed ${positionClass} ${unlockAnimClass}`.trim();
     pinEl.style.left = `${m.x}%`;
     pinEl.style.top = `${m.y}%`;
     pinEl.dataset.id = m.id;
@@ -243,57 +229,26 @@ function renderPins() {
     pinEl.innerHTML = `
       <div class="pin-target-zone" style="width: ${diameterPx.toFixed(1)}px; height: ${diameterPx.toFixed(1)}px;"></div>
       <div class="pin-badge" title="${m.label}">
-        <span>${isCompleted ? '✓' : m.id}</span>
+        <span>✓</span>
       </div>
       <div class="pin-label-pill">
-        ${isCompleted ? `${m.label} ✓` : m.label}
+        ${m.label} ✓
       </div>
     `;
 
     pinEl.addEventListener('click', (e) => {
       e.stopPropagation();
-      handlePinClick(m, pinEl);
+      handleUnlockedPinClick(m);
     });
 
     pinsContainer.appendChild(pinEl);
   });
 }
 
-function handlePinClick(m, pinEl) {
-  if (isModalOpen || isPanning) return;
-  if (completedSet.has(m.id)) {
-    showInfoModal(m);
-    return;
-  }
-  const currentMission = MISSIONS[currentIdx];
-
-  if (m.id === currentMission.id) {
-    handleSuccess(m);
-  } else {
-    // Mobilde ve masaüstünde tıklanan pinin etiketini mini balon olarak aç
-    if (pinEl) {
-      revealPinLabel(pinEl);
-    }
-
-    createMissRipple(m.x, m.y);
-
-    const diffX = m.x - currentMission.x;
-    const diffY = m.y - currentMission.y;
-    let directions = [];
-    if (diffY > 3.5) directions.push("kuzeyde");
-    else if (diffY < -3.5) directions.push("güneyde");
-
-    if (diffX > 3.5) directions.push("batıda");
-    else if (diffX < -3.5) directions.push("doğuda");
-
-    let hint = "";
-    if (directions.length === 0) {
-      hint = `İşaretlediğiniz yer: ${m.label}. Aradığınız hedefe çok yakınsınız!`;
-    } else {
-      hint = `İşaretlediğiniz yer: ${m.label}. Aradığınız bölge daha çok ${directions.join("-")} yer almaktadır.`;
-    }
-    showFeedback(hint);
-  }
+function handleUnlockedPinClick(m) {
+  if (isModalOpen || isPanning || isCompletionModalOpen() || isIntroOpen()) return;
+  // Daha önce açılmış bir pine tıklandığında bilgi kartını tekrar inceleme modunda aç
+  showInfoModal(m, true);
 }
 
 /* --------------------------------------------------------
@@ -306,14 +261,22 @@ function loadMission(idx) {
 
   cardQuestionText.textContent = m.q;
   progressBar.style.width = `${(completedSet.size / MISSIONS.length) * 100}%`;
+
+  if (missionProgressText) {
+    missionProgressText.textContent = `${currentIdx + 1} / ${MISSIONS.length} Bölge`;
+  }
+
   renderPins();
 }
 
 /* --------------------------------------------------------
    E. BİLGİ POP-UP KARTI (BAŞARILI TIKLAMA SONRASI)
 -------------------------------------------------------- */
-function showInfoModal(m) {
+let isReviewingHistoryPin = false;
+
+function showInfoModal(m, isReview = false) {
   isModalOpen = true;
+  isReviewingHistoryPin = isReview;
   infoTitle.textContent = m.label;
   infoWhere.textContent = m.where;
 
@@ -324,10 +287,12 @@ function showInfoModal(m) {
     infoNotes.appendChild(li);
   });
 
-  if (currentIdx === MISSIONS.length - 1) {
-    nextBtnText.textContent = "Kapat ve Haritaya Dön ✓";
+  if (isReview) {
+    nextBtnText.textContent = "Kapat ✓";
+  } else if (completedSet.size === MISSIONS.length) {
+    nextBtnText.textContent = "Etkinliği Tamamla ve Kapanış Bildirimini Gör ✓";
   } else {
-    nextBtnText.textContent = "Kapat ve Sıradakine Geç →";
+    nextBtnText.textContent = "Kapat ve Sıradaki Bölgeye Geç →";
   }
 
   infoModal.classList.remove('opacity-0', 'pointer-events-none');
@@ -344,19 +309,26 @@ function hideInfoModal() {
 
 nextMissionBtn.addEventListener('click', () => {
   hideInfoModal();
+
+  if (isReviewingHistoryPin) {
+    isReviewingHistoryPin = false;
+    return;
+  }
+
   if (completedSet.size === MISSIONS.length) {
     onAllMissionsCompleted();
     return;
   }
-  if (currentIdx < MISSIONS.length - 1) {
-    setTimeout(() => {
-      loadMission(currentIdx + 1);
-    }, 250);
-  } else {
-    setTimeout(() => {
-      onAllMissionsCompleted();
-    }, 250);
+
+  // Henüz kilidi açılmamış sıradaki görevi bul
+  let nextIdx = (currentIdx + 1) % MISSIONS.length;
+  while (completedSet.has(MISSIONS[nextIdx].id) && completedSet.size < MISSIONS.length) {
+    nextIdx = (nextIdx + 1) % MISSIONS.length;
   }
+
+  setTimeout(() => {
+    loadMission(nextIdx);
+  }, 250);
 });
 
 function reportSCORMCompletion() {
@@ -372,24 +344,68 @@ function reportSCORMCompletion() {
 
 function onAllMissionsCompleted() {
   reportSCORMCompletion();
-  
+
   if (cardQuestionText) {
-    cardQuestionText.textContent = "Tebrikler! 1683–1774 dönemine ait tüm sınır mücadelelerini başarıyla tamamladınız. Harita üzerindeki noktaları inceleyebilirsiniz.";
+    cardQuestionText.textContent = "Tebrikler! 1683–1774 dönemine ait tüm sınır mücadelelerini başarıyla tamamladınız ve tüm noktaların kilidini açtınız.";
+  }
+
+  if (missionProgressText) {
+    missionProgressText.textContent = `${MISSIONS.length} / ${MISSIONS.length} Tamamlandı`;
   }
 
   if (finalActionBar) {
     finalActionBar.classList.remove('opacity-0', 'translate-y-6', 'pointer-events-none');
     finalActionBar.classList.add('opacity-100', 'translate-y-0');
   }
+
+  // Kapanış Bildirim Modalı
+  setTimeout(() => {
+    openCompletionModal();
+  }, 350);
+}
+
+function openCompletionModal() {
+  if (!completionModal) return;
+  completionModal.classList.remove('opacity-0', 'pointer-events-none');
+  completionModal.classList.add('opacity-100');
+  if (completionModal.firstElementChild) {
+    completionModal.firstElementChild.classList.remove('scale-95');
+    completionModal.firstElementChild.classList.add('scale-100');
+  }
+}
+
+function closeCompletionModal() {
+  if (!completionModal) return;
+  completionModal.classList.add('opacity-0', 'pointer-events-none');
+  completionModal.classList.remove('opacity-100');
+  if (completionModal.firstElementChild) {
+    completionModal.firstElementChild.classList.remove('scale-100');
+    completionModal.firstElementChild.classList.add('scale-95');
+  }
+}
+
+if (exploreMapBtn) {
+  exploreMapBtn.addEventListener('click', () => {
+    closeCompletionModal();
+  });
+}
+
+if (completionFinishBtn) {
+  completionFinishBtn.addEventListener('click', () => {
+    closeCompletionModal();
+    finishActivity();
+  });
 }
 
 function restartAllFromMap() {
   reportSCORMCompletion();
+  closeCompletionModal();
   if (finalActionBar) {
     finalActionBar.classList.add('opacity-0', 'translate-y-6', 'pointer-events-none');
     finalActionBar.classList.remove('opacity-100', 'translate-y-0');
   }
   completedSet.clear();
+  newlyUnlockedPinId = null;
   progressBar.style.width = '0%';
   hideInfoModal();
   resetTransform();
@@ -399,6 +415,7 @@ function restartAllFromMap() {
 
 function finishActivity() {
   reportSCORMCompletion();
+  closeCompletionModal();
   if (finalActionBar) {
     finalActionBar.classList.add('opacity-0', 'pointer-events-none');
   }
@@ -433,10 +450,10 @@ if (closeWindowBtn) {
    F. HARİTA TIKLAMA VE İSABET MANTIĞI
 -------------------------------------------------------- */
 viewport.addEventListener('click', (e) => {
-  if (isModalOpen || isIntroOpen() || isExitModalOpen() || isPanning || e.target.closest('#floatingQuestionCard') || e.target.closest('.map-pin-item') || e.target.closest('#finalActionBar')) return;
+  if (isModalOpen || isIntroOpen() || isExitModalOpen() || isCompletionModalOpen() || isPanning || e.target.closest('#floatingQuestionCard') || e.target.closest('.map-pin-item') || e.target.closest('#finalActionBar')) return;
 
-  // Açık olan geçici balonları kapat
-  document.querySelectorAll('.map-pin-item.is-revealed').forEach(el => el.classList.remove('is-revealed'));
+  // Tüm görevler bittiyse yeni tıklama gerekmez
+  if (completedSet.size === MISSIONS.length) return;
 
   const rect = mapImage.getBoundingClientRect();
   if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
@@ -461,13 +478,20 @@ viewport.addEventListener('click', (e) => {
 });
 
 function handleSuccess(m) {
+  newlyUnlockedPinId = m.id;
   completedSet.add(m.id);
   progressBar.style.width = `${(completedSet.size / MISSIONS.length) * 100}%`;
 
+  if (missionProgressText) {
+    missionProgressText.textContent = `${completedSet.size} / ${MISSIONS.length} Bölge Açıldı`;
+  }
+
+  // Doğru nokta tespit edildiğinde pini görünür kıl ve kilit açılma animasyonunu oynat
   renderPins();
 
   setTimeout(() => {
-    showInfoModal(m);
+    showInfoModal(m, false);
+    newlyUnlockedPinId = null;
   }, 450);
 }
 
@@ -604,26 +628,7 @@ viewport.addEventListener('touchend', (e) => {
 }, { passive: true });
 
 /* --------------------------------------------------------
-   H. PİN KONTROLLERİ VE İLK BAŞLATMA
--------------------------------------------------------- */
-if (togglePinsBtn) {
-  togglePinsBtn.addEventListener('click', () => {
-    showPins = !showPins;
-    if (showPins) {
-      togglePinsText.textContent = "Pinler: Açık";
-      togglePinsBtn.classList.add('border-amber-500/40', 'text-amber-300');
-      togglePinsBtn.classList.remove('border-[#433020]', 'text-amber-200/60');
-    } else {
-      togglePinsText.textContent = "Pinler: Kapalı";
-      togglePinsBtn.classList.remove('border-amber-500/40', 'text-amber-300');
-      togglePinsBtn.classList.add('border-[#433020]', 'text-amber-200/60');
-    }
-    renderPins();
-  });
-}
-
-/* --------------------------------------------------------
-   I. GİRİŞ EKRANI (INTRO MODAL) KONTROLLERİ
+   H. GİRİŞ EKRANI (INTRO MODAL) KONTROLLERİ
 -------------------------------------------------------- */
 function openIntroModal() {
   if (!introModal) return;
@@ -639,10 +644,6 @@ function closeIntroModal() {
 
 if (startIntroBtn) {
   startIntroBtn.addEventListener('click', closeIntroModal);
-}
-
-if (introHelpBtn) {
-  introHelpBtn.addEventListener('click', openIntroModal);
 }
 
 window.addEventListener('resize', () => {
